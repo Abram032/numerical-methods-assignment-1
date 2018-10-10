@@ -6,25 +6,25 @@
 
 using namespace std;
 
-double HadamardSum(double** matrix_a, double** matrix_b, int size)
+double** Hadamard(double** matrix_a, double** matrix_b, int size_x, int size_y)
 {
-	double sum = 0;
-
-	for (int i = 0; i < size; i++)
+	double** result_matrix = GenerateMatrix(size_x, size_y);
+	
+	for (int i = 0; i < size_x; i++)
 	{
-		for (int j = 0; j < size; j++)
+		for (int j = 0; j < size_y; j++)
 		{
-			sum += matrix_a[i][j] * matrix_b[i][j];
+			result_matrix[i][j] = matrix_a[i][j] * matrix_b[i][j];
 		}
 	}
-	return sum;
+	return result_matrix;
 }
 
-void PrintMatrix(double** matrix, int size)
+void PrintMatrix(double** matrix, int size_x, int size_y)
 {
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size_x; i++)
 	{
-		for (int j = 0; j < size; j++)
+		for (int j = 0; j < size_y; j++)
 		{
 			cout << matrix[i][j] << " ";
 		}
@@ -33,22 +33,36 @@ void PrintMatrix(double** matrix, int size)
 	cout << endl;
 }
 
-double** GenerateMatrix(int size, int min, int max)
+double** FillMatrix(double** matrix, int size_x, int size_y, int min, int max)
 {
-    double** matrix = new double*[size];
-
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size_x; i++)
 	{
-		matrix[i] = new double[size];
-	}
-
-	for (int i = 0; i < size; i++)
-	{
-		for (int j = 0; j < size; j++)
+		for (int j = 0; j < size_y; j++)
 		{
 			matrix[i][j] = (rand() % max) + min;
 		}
 	}
 
     return matrix;
+}
+
+double** GenerateMatrix(int size_x, int size_y)
+{
+    double** matrix = new double*[size_x];
+
+	for (int i = 0; i < size_x; i++)
+	{
+		matrix[i] = new double[size_y];
+	}
+
+    return matrix;
+}
+
+void DeleteMatrix(double** matrix, int size_x)
+{
+	for(int i = 0; i < size_x; i++)
+	{
+		delete[] matrix[i];
+	}
+	delete[] matrix;
 }
